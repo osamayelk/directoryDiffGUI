@@ -1,7 +1,9 @@
 const {dialog} = require('electron').remote
 var dircompare = require('dir-compare');
 var options = {compareSize: true};
-var utils = require('util')
+const {ipcRenderer} = require('electron')
+var util = require('util')
+var file1,file2;
 $(function(){
 $(".btn").click(function(){
 	file1 = dialog.showOpenDialog({properties: ['openDirectory']})
@@ -12,19 +14,21 @@ $(".btn").click(function(){
 	res.diffSet.forEach(function (entry) {
     if (entry.state == "left" || entry.state == "right" || entry.state == "distinct") {
     	if (entry.state == "left") {
-    		$("#left").append("<tr><td class=\"missing\">" + entry.name1 + "</td></tr>")
+    		$("#left").append("<tr><td class=\"missing\">" + entry.relativePath + "/" + entry.name1 + "</td></tr>")
     		$("#right").append("<tr><td>" + "&nbsp;" + "</td></tr>")
     	} else if (entry.state == "right") {
     		$("#left").append("<tr><td>" + "&nbsp;" + "</td></tr>")
-    		$("#right").append("<tr><td class=\"missing\">" + entry.name2 + "</td></tr>")
+    		$("#right").append("<tr><td class=\"missing\">" +  entry.relativePath + "/" + entry.name2 + "</td></tr>")
     	} else {
-    		$("#left").append("<tr><td class=\"distinct\">" + entry.name1 + "</td></tr>")
-    		$("#right").append("<tr ><td class=\"distinct\">" + entry.name2 + "</td></tr>")
+    		$("#left").append("<tr><td class=\"distinct\">" +  entry.relativePath + "/" + entry.name1 + "</td></tr>")
+    		$("#right").append("<tr ><td class=\"distinct\">" +  entry.relativePath + "/" + entry.name2 + "</td></tr>")
     	}
     }
 });
 })
-$(document).on('click', '.distinct', function(){ 
-
+$("tbody").on('dblclick', '.distinct', function(){ 
+          ipcRenderer.send('asynchronous-message',['show-comparison',$(this).html(),file1[0],file2[0]]);
+          //alert($(this).html())
+          // ipcRenderer.send('fileToCompare',[$(this).html(),file1,file2]);
 }); 
 });

@@ -6,11 +6,12 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const {ipcMain} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-
+let compareWindow
 function createWindow () {
   // Create the browser window.
 mainWindow = new BrowserWindow({
@@ -42,7 +43,32 @@ mainWindow = new BrowserWindow({
   });
 }
 
-
+ipcMain.on('asynchronous-message', (event, arg) => {
+  if(arg[0] == 'show-comparison') {
+        compareWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    'min-width': 500,
+    'min-height': 200,
+    'accept-first-mouse': true,
+    'title-bar-style': 'hidden',
+    parent: mainWindow,
+    modal: true,
+});
+    compareWindow.webContents.openDevTools()
+  compareWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'textCompare.html'),
+     protocol: 'file:',
+    slashes: true
+  }));
+    compareWindow.on('closed', function() {
+      compareWindow = null; 
+  });
+    compareWindow.webContents.on('did-finish-load',function(){
+      compareWindow.webContents.send('data',[arg[1],arg[2],arg[3]])
+    });
+  }
+})
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.

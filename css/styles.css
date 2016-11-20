@@ -9,3 +9,13 @@ h1 {
 	font-size: 200% !important;
 	font-weight: bold;
 }
+.removed {
+	background-color: #AA3838 !important;
+	color: white;
+}
+.added {
+	background-color: #47845c !important;
+}
+.normal{
+	background-color: #f5f5f4 !important;
+}
