@@ -1,9 +1,9 @@
 {
-  "name": "proton-template-app",
+  "name": "directoryDiffGUI",
   "version": "1.0.0",
-  "description": "A simple template app for Proton",
+  "description": "A program to show the difference between two directories",
   "main": "app.js",
-  "author": "Connor Sears",
+  "author": "Osama Yousry",
   "scripts": {
     "start": "electron ."
   },
