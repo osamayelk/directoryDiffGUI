@@ -11,19 +11,20 @@ $(".btn").click(function(){
 	$("tbody").empty()
 	res.diffSet.forEach(function (entry) {
     if (entry.state == "left" || entry.state == "right" || entry.state == "distinct") {
-    	console.log(entry.type1);
     	if (entry.state == "left") {
-    		$("#left").append("<tr class=\"missing\"><td>" + entry.name1 + "</td></tr>")
+    		$("#left").append("<tr><td class=\"missing\">" + entry.name1 + "</td></tr>")
     		$("#right").append("<tr><td>" + "&nbsp;" + "</td></tr>")
     	} else if (entry.state == "right") {
     		$("#left").append("<tr><td>" + "&nbsp;" + "</td></tr>")
-    		$("#right").append("<tr class=\"missing\"><td>" + entry.name2 + "</td></tr>")
+    		$("#right").append("<tr><td class=\"missing\">" + entry.name2 + "</td></tr>")
     	} else {
-    		$("#left").append("<tr class=\"distinct\"><td>" + entry.name1 + "</td></tr>")
-    		$("#right").append("<tr class = \"distinct\"><td>" + entry.name2 + "</td></tr>")
+    		$("#left").append("<tr><td class=\"distinct\">" + entry.name1 + "</td></tr>")
+    		$("#right").append("<tr ><td class=\"distinct\">" + entry.name2 + "</td></tr>")
     	}
     }
 });
 })
+$(document).on('click', '.distinct', function(){ 
 
+}); 
 });
