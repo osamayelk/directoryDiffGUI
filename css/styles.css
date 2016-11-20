@@ -5,3 +5,7 @@ table {
 	background-color: #AA3838 !important;
 	color: white;
 }
+h1 {
+	font-size: 200% !important;
+	font-weight: bold;
+}
