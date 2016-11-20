@@ -22,7 +22,7 @@ mainWindow = new BrowserWindow({
     'accept-first-mouse': true,
     'title-bar-style': 'hidden'
   });
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -55,7 +55,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     parent: mainWindow,
     modal: true,
 });
-    compareWindow.webContents.openDevTools()
+    //compareWindow.webContents.openDevTools()
   compareWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'textCompare.html'),
      protocol: 'file:',
