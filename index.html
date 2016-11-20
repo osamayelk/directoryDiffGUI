@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diff App</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/photon.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- Javascript -->
+    <script>window.$ = window.jQuery = require('./js/jquery-3.1.1.min.js');</script>
+    <script src="js/btns.js"></script>
+  </head>
+  <body>
+    <div class="window">
+
+      <!-- .toolbar-header sits at the top of your app -->
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Diff App</h1>
+          <div class="toolbar-actions">
+            <div class="btn-group">
+                  <button class="btn btn-default">
+                  <input type="file" id="file1" style="display:none">
+                  <input type="file" id="file2" style="display:none">
+        <span class="icon icon-folder"></span>
+      </button>
+      <!-- <button class="btn btn-default">
+        <span class="icon icon-folder"></span>  2
+      </button> -->
+            </div>
+          </div>
+      </header>
+
+      <!-- Your app's content goes inside .window-content -->
+      <div class="window-content">
+        <div class="pane-group">
+          <div class="pane">
+            <table class="table-striped">
+              <thead>
+                <tr>
+                  <th>File</th>
+                </tr>
+              </thead>
+              <tbody id = "left">
+              <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pane">
+            <table class="table-striped">
+               <thead>
+                <tr>
+                  <th>File</th>
+                </tr>
+              </thead>
+              <tbody id = "right">
+                <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

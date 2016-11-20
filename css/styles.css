@@ -1,0 +1,7 @@
+table {
+    border-collapse: separate;
+}
+.missing {
+	background-color: #AA3838 !important;
+	color: white;
+}
