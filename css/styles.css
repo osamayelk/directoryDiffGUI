@@ -6,7 +6,7 @@ table {
 	color: white;
 }
 h1 {
-	font-size: 200% !important;
+	/*font-size: 200% !important;*/
 	font-weight: bold;
 }
 .removed {
@@ -18,4 +18,7 @@ h1 {
 }
 .normal{
 	background-color: #f5f5f4 !important;
+}
+.icon {
+	margin-right: 2px;
 }
