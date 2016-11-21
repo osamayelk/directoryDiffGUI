@@ -74,6 +74,6 @@ var options = {compareSize:true, excludeFilter:excludeList};
 compareTwoDirectories(file1,file2,options)
 })
 $("tbody").on('dblclick', '.distinct', function(){ 
-          ipcRenderer.send('asynchronous-message',['show-comparison',$(this).html(),file1[0],file2[0]]);
+          ipcRenderer.send('asynchronous-message',['show-comparison',$(this).html(),file1,file2]);
 }); 
 });
