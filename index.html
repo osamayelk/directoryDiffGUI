@@ -17,15 +17,15 @@
       <header class="toolbar toolbar-header">
         <h1 class="title">Diff App</h1>
           <div class="toolbar-actions">
-            <div class="btn-group">
-                  <button class="btn btn-default">
-                  <input type="file" id="file1" style="display:none">
-                  <input type="file" id="file2" style="display:none">
-        <span class="icon icon-folder"></span>
+      <div class="btn-group">
+      <button class="btn btn-default" id="openDirectory">
+      <span class="icon icon-folder"></span>
       </button>
-      <!-- <button class="btn btn-default">
-        <span class="icon icon-folder"></span>  2
-      </button> -->
+      <button class="btn btn-default" title="Excludes selected files" id="excludeF">
+      <span class="icon icon-doc-text-inv"></span> Exclude files</button>
+      <button class="btn btn-default" title="Excludes selected folders" id="excludeD">
+      <span class="icon icon-folder"></span> Exclude folders</button>
+      <button class="btn btn-default" title="Excludes contents of gitignore" id="gitignore">.gitignore</button>
             </div>
           </div>
       </header>
