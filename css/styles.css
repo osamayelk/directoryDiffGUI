@@ -22,3 +22,6 @@ h1 {
 .icon {
 	margin-right: 2px;
 }
+#leftTable::-webkit-scrollbar { 
+    display: none; 
+}

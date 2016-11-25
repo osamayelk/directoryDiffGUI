@@ -44,16 +44,41 @@ var excludeItems = function(isDirectory) {
 	compareTwoDirectories(file1,file2,options)
 }
 $(function(){
+	var $divs = $('#leftTable, #rightTable');
+var sync = function(e){
+    var $other = $divs.not(this).off('scroll'), other = $other.get(0);
+    // var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
+    // other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight);
+    other.scrollTop = this.scrollTop;
+    // Firefox workaround. Rebinding without delay isn't enough.
+    setTimeout( function(){ $other.on('scroll', sync ); },10);
+}
+$divs.on( 'scroll', sync);
+// 	$('#leftTable').scroll(function(){
+//     $('#rightTable').scrollTop($(this).scrollTop());    
+// });
+// 	$('#rightTable').scroll(function(){
+//     $('#leftTable').scrollTop($(this).scrollTop());   
+// });
 $("#openDirectory").click(function(){
-	file1 = dialog.showOpenDialog({properties: ['openDirectory']})[0]
-	file2 = dialog.showOpenDialog({properties: ['openDirectory']})[0]
+	file1 = dialog.showOpenDialog({properties: ['openDirectory']})
+	file2 = dialog.showOpenDialog({properties: ['openDirectory']})
+	if (file1 && file2) {
+		file1 = file1[0];
+		file2 = file2[0];
+		var options = {compareSize: true,excludeFilter:excludeList};
+	compareTwoDirectories(file1,file2,options)
+	} else {
+		       dialog.showMessageBox({ type:"error", message: "You haven't picked a file! You need to pick two files", buttons: ["OK"],
+		       title:"Error" });
+		       file1 = null;
+		       file2 = null;
+	}
 // 	if (excludeList == "") {
 // 	excludeList = excludeList + "node_modules,logs,mqttStore,.git,.gitignore"
 // } else {
 // 	excludeList = excludeList + ",node_modules,logs,mqttStore,.git,.gitignore"
 // }
-	var options = {compareSize: true,excludeFilter:excludeList};
-	compareTwoDirectories(file1,file2,options)
 });
 $("#excludeF").click(function(){
 	excludeItems(false)
