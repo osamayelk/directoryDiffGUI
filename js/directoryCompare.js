@@ -9,6 +9,9 @@ var excludeList = "";
 var compareTwoDirectories = function(file1,file2,options) {
 	var res = dircompare.compareSync(file1, file2, options);
 	$("tbody").empty()
+	$("thead").empty()
+	$("#left").siblings("thead").append("<tr><th> "+ file1 +"  </th></tr>");
+	$("#right").siblings("thead").append("<tr><th> "+ file2 +"  </th></tr>");
 	res.diffSet.forEach(function (entry) {
     if (entry.state == "left" || entry.state == "right" || entry.state == "distinct") {
     	if (entry.state == "left") {
