@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var file1,file2;
 var excludeList = "";
+var usegitignore = false;
 var compareTwoDirectories = function(file1,file2,options) {
 	var res = dircompare.compareSync(file1, file2, options);
 	$("tbody").empty()
@@ -27,6 +28,18 @@ var compareTwoDirectories = function(file1,file2,options) {
     }
 });
 }
+
+var includeFile = function(filename, listoffiles) {
+		function escapeRegExp(str) {
+			return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+	var tempString = "," + escapeRegExp(filename) + "," + "|" + "^" + escapeRegExp(filename) + "," + "|" + "," + escapeRegExp(filename) + "$";
+	var regexp = new RegExp(tempString,"gi");
+	listoffiles = listoffiles.replace(regexp, ",");
+	listoffiles = listoffiles.replace(/,{2,}/g,'');
+	return listoffiles;
+}
+
 var excludeItems = function(isDirectory) {
 	var Fproperties;
 	if (isDirectory) {
@@ -69,8 +82,19 @@ $("#openDirectory").click(function(){
 	if (file1 && file2) {
 		file1 = file1[0];
 		file2 = file2[0];
+		if (usegitignore) {
+			var gitIgnoreContent = fs.readFileSync(file1 + "/.gitignore",'utf8');
+			gitIgnoreContent = gitIgnoreContent.replace(/#.+|^\r|^\n|^\s*$/g,'');
+			gitIgnoreContent = gitIgnoreContent.replace(/\s+/g,',');
+			excludeList = excludeList + ",.git"
+			if (gitIgnoreContent.indexOf(',') == 0) {
+				excludeList = excludeList + gitIgnoreContent;
+			} else {
+				excludeList = excludeList + ',' + gitIgnoreContent;
+			}
+		}
 		var options = {compareSize: true,excludeFilter:excludeList};
-	compareTwoDirectories(file1,file2,options)
+		compareTwoDirectories(file1,file2,options)
 	} else {
 		       dialog.showMessageBox({ type:"error", message: "You haven't picked a file! You need to pick two files", buttons: ["OK"],
 		       title:"Error" });
@@ -90,18 +114,35 @@ $("#excludeD").click(function(){
 	excludeItems(true)
 });
 $("#gitignore").click(function(){
-	var gitIgnoreContent = fs.readFileSync(file1 + "/.gitignore",'utf8');
-	gitIgnoreContent = gitIgnoreContent.replace(/#.+|^\r|^\n|^\s*$/g,'');
-	gitIgnoreContent = gitIgnoreContent.replace(/\s+/g,',');
-	excludeList = excludeList + ",.git"
-	if (gitIgnoreContent.indexOf(',') == 0) {
-		excludeList = excludeList + gitIgnoreContent;
-} else {
-	excludeList = excludeList + ',' + gitIgnoreContent;
-}
-var options = {compareSize:true, excludeFilter:excludeList};
-compareTwoDirectories(file1,file2,options)
-})
+	if (!usegitignore) {
+	$("#gitignore").addClass("active");
+	usegitignore = true;
+	} else {
+		usegitignore = false;
+		$("#gitignore").removeClass("active");
+	}
+	if (file1 && file2) {
+		var gitIgnoreContent = fs.readFileSync(file1 + "/.gitignore",'utf8');
+			gitIgnoreContent = gitIgnoreContent.replace(/#.+|^\r|^\n|^\s*$/g,'');
+			gitIgnoreContent = gitIgnoreContent.replace(/\s+/g,',');
+			gitIgnoreContent = gitIgnoreContent + ",.git";
+		if (usegitignore) {
+			if (gitIgnoreContent.indexOf(',') == 0) {
+				excludeList = excludeList + gitIgnoreContent;
+			} else {
+				excludeList = excludeList + ',' + gitIgnoreContent;
+			}
+		} else {
+			var gitIgnoreList = [];
+			gitIgnoreList = gitIgnoreContent.split(',');
+			gitIgnoreList.forEach(function(file) {
+				excludeList = includeFile(file,excludeList);
+			});
+		}
+		var options = {compareSize: true,excludeFilter:excludeList};
+		compareTwoDirectories(file1,file2,options)	
+	}
+});
 $("tbody").on('dblclick', '.distinct', function(){ 
           ipcRenderer.send('asynchronous-message',['show-comparison',$(this).html(),file1,file2]);
 }); 
