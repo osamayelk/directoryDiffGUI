@@ -93,6 +93,7 @@ $("#gitignore").click(function(){
 	var gitIgnoreContent = fs.readFileSync(file1 + "/.gitignore",'utf8');
 	gitIgnoreContent = gitIgnoreContent.replace(/#.+|^\r|^\n|^\s*$/g,'');
 	gitIgnoreContent = gitIgnoreContent.replace(/\s+/g,',');
+	excludeList = excludeList + ",.git"
 	if (gitIgnoreContent.indexOf(',') == 0) {
 		excludeList = excludeList + gitIgnoreContent;
 } else {
